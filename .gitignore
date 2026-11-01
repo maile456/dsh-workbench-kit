@@ -1,0 +1,7 @@
+node_modules/
+.dsh-workbench/
+artifacts/
+*.tgz
+.env
+.env.*
+!.env.example
