@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-11-01",
+  "discoveryPolicy": "Installation discovery is evidence of package presence only. Confirm registered tools and perform a task-scoped live check before claiming service readiness.",
+  "capabilities": [
+    {
+      "id": "search",
+      "title": "联网搜索与网页读取",
+      "description": "复用宿主搜索能力以及 modsearch 的搜索提供方和网页读取工具。",
+      "pluginPackages": ["@liustack/modsearch"],
+      "tools": ["web_search", "web_fetch", "read_page", "x_search"],
+      "toolDiscovery": "工具名为已核对的候选项；不同宿主版本和配置只会注册其中部分。",
+      "setupNotes": "已有 @liustack/modsearch 时优先复用。modsearch 通过宿主 web_search 接入；实际额度与网络就绪需真实请求确认。",
+      "sourceUrl": "https://github.com/liustack/modsearch",
+      "requiredConfiguration": ["可用网络", "至少一个可用搜索提供方；部分提供方需要账号或 API Key"],
+      "skill": "workbench-research"
+    },
+    {
+      "id": "vision",
+      "title": "识图、OCR 与视觉检查",
+      "description": "使用现有视觉工具箱分析截图、提取文字和比较界面，辅助成果检查。",
+      "pluginPackages": ["@anionex/dsh-vision-toolkit"],
+      "tools": ["vision_glance", "vision_ground", "vision_long_screenshot_ocr", "vision_pixel_diff", "vision_html_screenshot"],
+      "toolDiscovery": "名称来自已安装版本 0.1.48 的工具声明；以当前会话实际 schema 为准。",
+      "setupNotes": "安装状态不等于视觉服务可用。先检查当前配置，在任务需要时用一张测试图验证；本目录不保存凭据。",
+      "sourceUrl": "https://github.com/Anionex/dsh-vision-toolkit",
+      "requiredConfiguration": ["可用视觉模型或提供方", "工具运行环境；HTML 截图需要浏览器"],
+      "skill": "workbench-office"
+    },
+    {
+      "id": "memory",
+      "title": "项目记忆与待办",
+      "description": "复用已有长期记忆保存稳定项目决定；工作台账本保存可验证任务状态。",
+      "pluginPackages": ["dsh-memory-evolve"],
+      "tools": ["memory", "skill_manage"],
+      "toolDiscovery": "这是插件默认名称，配置允许改名；必须从当前会话发现实际入口。",
+      "setupNotes": "避免同时维护相互冲突的任务真相。长期事实存记忆，任务证据存 .dsh-workbench；按需启用附加模块。",
+      "sourceUrl": "https://github.com/csyangwen/dsh-memory-evolve",
+      "requiredConfiguration": ["对应模块已启用", "当前工作区与项目记忆的关联正确"],
+      "skill": "workbench-delivery"
+    },
+    {
+      "id": "office",
+      "title": "文档、表格与幻灯片",
+      "description": "复用 DSH 官方 Office 技能完成编辑、渲染、重算与 PDF 导出。",
+      "pluginPackages": ["@deepseek-ai/dsh-skill-office"],
+      "tools": ["skill"],
+      "toolDiscovery": "通过宿主 skill 工具发现 office-docx、office-xlsx、office-pptx、office-render、office-recalculate、office-export-pdf；不是一组同名调用工具。",
+      "setupNotes": "桌面端通常自带 Office 资源；以技能注入的运行时路径为准。Web、CLI 和桌面端资源配置可能不同。",
+      "sourceUrl": "https://github.com/deepseek-ai/deepseek-harness",
+      "requiredConfiguration": ["官方 Office 技能已挂载", "格式技能指定的作者库与运行时", "需要渲染或重算时具备可用 LibreOffice Kit"],
+      "skill": "workbench-office"
+    },
+    {
+      "id": "browser",
+      "title": "浏览器操作",
+      "description": "通过用户选用并已连接的浏览器扩展或 MCP 完成网页操作与状态验证。",
+      "pluginPackages": [],
+      "tools": [],
+      "toolDiscovery": "不同浏览器桥接的名称不统一；从当前工具列表发现快照、导航、点击、输入、下载入口。侧栏预览不等于可控制浏览器。",
+      "setupNotes": "核心项目不捆绑或自动安装浏览器桥接。参考 dsh-browser 项目完成扩展与宿主连接，再验证当前标签页可读。",
+      "sourceUrl": "https://github.com/omdsh-dev/dsh-browser",
+      "requiredConfiguration": ["用户选用的浏览器连接器", "浏览器扩展或 MCP 连接正常", "任务所需网页登录状态"],
+      "skill": "workbench-browser"
+    },
+    {
+      "id": "codex",
+      "title": "本机 Codex 协作",
+      "description": "通过本项目桥接启动 Codex 任务，保存执行事件、最终答案和退出状态。",
+      "pluginPackages": ["dsh-workbench-kit"],
+      "tools": ["codex_start", "codex_status", "codex_list", "codex_cancel"],
+      "toolDiscovery": "只有本项目在当前 profile 注册桥接工具后才可调用；可执行文件发现不代表账号或模型可用。",
+      "setupNotes": "使用本机 Codex 既有登录与配置。默认只读，写任务需要插件允许且经宿主授权。真实模型调用可能消耗账号额度。",
+      "sourceUrl": "https://learn.chatgpt.com/docs/codex-sdk",
+      "requiredConfiguration": ["本机 Codex CLI", "可用的现有 Codex 登录或提供方配置", "需要写入时启用 allowCodexWrite 并取得当前任务授权"],
+      "skill": "workbench-codex"
+    }
+  ]
+}
